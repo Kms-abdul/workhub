@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+/* App colours. Four are chosen by the admin (Admin > Appearance) and loaded when the app starts:
+   brand, accent, sidebar and sidebar-text. The values here are the defaults (MS Education Academy
+   indigo and green). The darker and lighter shades are worked out from the brand colour, so they
+   always match whatever is picked. Used as bg-brand, text-brand, bg-accent, bg-sidebar and so on. */
+@theme {
+  --color-brand: #3a3184;
+  --color-brand-dark: color-mix(in srgb, var(--color-brand) 75%, black);
+  --color-brand-light: color-mix(in srgb, var(--color-brand) 10%, white);
+  --color-accent: #009c49;
+  --color-accent-dark: color-mix(in srgb, var(--color-accent) 78%, black);
+  --color-sidebar: #ffffff;
+  --color-sidebar-text: #475569;
+}
+
 body {
   @apply bg-slate-50 text-slate-800 antialiased;
+}
+
+/* Keyboard focus and text boxes pick up the brand colour too. */
+input:focus, select:focus, textarea:focus {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 1px var(--color-brand);
 }

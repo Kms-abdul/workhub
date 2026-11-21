@@ -144,7 +144,7 @@ export default function QuickLog({ day, onDayChange, today }) {
           <input value={row.comments} onChange={set('comments')} className={box} />
         </Field>
         <button type="submit" disabled={save.isPending}
-          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-60">
+          className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark disabled:opacity-60">
           {save.isPending ? 'Saving…' : 'Add'}
         </button>
       </div>

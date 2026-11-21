@@ -1,18 +1,19 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import api, { errorMessage } from '../api/client'
+import Appearance from '../components/Appearance'
 
 const KINDS = ['OPEN', 'ACTIVE', 'DONE']
 const FIELD_TYPES = ['TEXT', 'NUMBER', 'DATE', 'SELECT']
 const KIND_STYLE = {
   OPEN: 'bg-slate-100 text-slate-700',
-  ACTIVE: 'bg-blue-100 text-blue-700',
+  ACTIVE: 'bg-brand-light text-brand',
   DONE: 'bg-green-100 text-green-700',
 }
 
 const input = 'rounded-md border border-slate-300 px-2 py-1.5 text-sm focus:border-slate-500 focus:outline-none'
 const smallBtn = 'rounded border border-slate-300 px-2 py-1 text-xs hover:bg-slate-100 disabled:opacity-40'
-const darkBtn = 'rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-60'
+const darkBtn = 'rounded-md bg-brand px-3 py-1.5 text-sm font-medium text-white hover:bg-brand-dark disabled:opacity-60'
 
 // One mutation for every admin change: call the API, then reload the config tree.
 function useSave(setError) {
@@ -254,6 +255,8 @@ export default function Admin() {
       <h1 className="text-2xl font-semibold">Admin</h1>
       <p className="mt-1 text-sm text-slate-500">Departments, categories, workflows and form fields. Changes save as you make them.</p>
 
+      <Appearance />
+
       {error && (
         <div role="alert" className="sticky top-2 z-10 mt-4 flex items-start justify-between gap-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           <span>{error}</span>
@@ -299,7 +302,7 @@ export default function Admin() {
                 <li key={c.id} className="flex items-center gap-1">
                   <button type="button" onClick={() => setCategoryId(c.id)}
                     className={`min-w-0 flex-1 truncate rounded-md px-3 py-2 text-left text-sm ${
-                      c.id === category?.id ? 'bg-slate-900 font-medium text-white' : 'hover:bg-slate-100'
+                      c.id === category?.id ? 'bg-brand font-medium text-white' : 'hover:bg-slate-100'
                     } ${c.is_active ? '' : 'line-through opacity-60'}`}>
                     {c.name} <span className="text-xs opacity-70">{c.ticket_prefix}</span>
                   </button>

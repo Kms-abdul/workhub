@@ -1,9 +1,11 @@
 """Everything an admin can configure: departments, categories and, per category,
 its issue list (classifications), workflow (statuses) and extra form fields (custom fields).
 Reading is open to every logged-in employee; changing is ADMIN only."""
+import json
 import re
+from pathlib import Path
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, current_app, jsonify, request
 
 from .. import db
 from ..access import allowed_departments, can_use_category
@@ -97,6 +99,51 @@ def work_type_names():
     for (name,) in db.session.query(Classification.name).filter(Classification.is_active.is_(True)):
         names.setdefault(name.casefold(), name)
     return jsonify(sorted(names.values(), key=str.casefold))
+
+
+# ---------- appearance (colours picked by the admin) ----------
+# Kept in a small file next to the app (backend/instance/theme.json), not in the database,
+# so changing the look never needs a database change. Missing file = default colours.
+
+THEME_DEFAULTS = {"brand": "#3a3184", "accent": "#009c49", "sidebar": "#ffffff", "sidebar_text": "#475569"}
+
+
+def theme_file():
+    return Path(current_app.instance_path) / "theme.json"
+
+
+def read_theme():
+    try:
+        saved = json.loads(theme_file().read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        saved = {}
+    return {key: saved.get(key) if re.fullmatch(r"#[0-9a-fA-F]{6}", str(saved.get(key))) else default
+            for key, default in THEME_DEFAULTS.items()}
+
+
+@bp.get("/theme")
+def get_theme():
+    """Open to everyone, because the sign-in page uses the colours too."""
+    return jsonify(colors=read_theme(), defaults=THEME_DEFAULTS)
+
+
+@bp.put("/theme")
+@login_required("ADMIN")
+def save_theme():
+    """Body: {"brand": "#3a3184", ...}. Send {"reset": true} to go back to the default colours."""
+    data = body()
+    if data.get("reset"):
+        theme_file().unlink(missing_ok=True)
+        return jsonify(colors=read_theme(), defaults=THEME_DEFAULTS)
+    colors = read_theme()
+    for key in THEME_DEFAULTS:
+        if key in data:
+            if not isinstance(data[key], str) or not re.fullmatch(r"#[0-9a-fA-F]{6}", data[key]):
+                return error("Each colour must look like #3a3184.")
+            colors[key] = data[key].lower()
+    theme_file().parent.mkdir(parents=True, exist_ok=True)
+    theme_file().write_text(json.dumps(colors, indent=2), encoding="utf-8")
+    return jsonify(colors=colors, defaults=THEME_DEFAULTS)
 
 
 # ---------- departments ----------

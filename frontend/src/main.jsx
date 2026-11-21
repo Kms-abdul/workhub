@@ -5,6 +5,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App.jsx'
 import { AuthProvider } from './auth'
 import './index.css'
+import { loadTheme } from './theme'
+
+loadTheme() // colours chosen by the admin
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } },

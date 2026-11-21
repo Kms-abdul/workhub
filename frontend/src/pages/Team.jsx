@@ -180,7 +180,7 @@ function EmployeeForm({ employee, employees, departments, onClose }) {
 
       <div className="mt-5 flex gap-2">
         <button type="submit" disabled={save.isPending || noCategoryTicked}
-          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-60">
+          className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark disabled:opacity-60">
           {save.isPending ? 'Saving…' : 'Save'}
         </button>
         <button type="button" onClick={onClose}
@@ -202,7 +202,7 @@ export default function Team() {
   const list = employees.data ?? []
   const departments = config.data ?? []
   const nameOf = (id) => list.find((e) => e.id === id)?.name ?? '—'
-  const link = 'text-blue-700 hover:underline'
+  const link = 'text-brand hover:underline'
 
   return (
     <div>
@@ -216,7 +216,7 @@ export default function Team() {
         </div>
         {isAdmin && !editing && (
           <button onClick={() => setEditing({})}
-            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700">
+            className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark">
             + Add employee
           </button>
         )}

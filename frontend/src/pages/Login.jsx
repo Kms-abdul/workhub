@@ -30,9 +30,10 @@ export default function Login() {
   const input = 'mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none'
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
-      <form onSubmit={submit} className="w-full max-w-sm rounded-lg border border-slate-200 bg-white p-6">
-        <h1 className="text-xl font-semibold">WorkHub</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center gap-5 px-4 py-8">
+      <img src="/ms-education-academy.webp" alt="MS Education Academy, preparing world worthy individuals" className="w-full max-w-sm rounded-lg" />
+      <form onSubmit={submit} className="w-full max-w-sm rounded-lg border border-slate-200 border-t-4 border-t-accent bg-white p-6">
+        <h1 className="text-xl font-semibold text-brand">WorkHub</h1>
         <p className="mt-1 text-sm text-slate-500">Sign in to log your work.</p>
 
         <label className="mt-5 block text-sm font-medium">
@@ -49,11 +50,14 @@ export default function Login() {
         <button
           type="submit"
           disabled={busy}
-          className="mt-5 w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-60"
+          className="mt-5 w-full rounded-md bg-brand px-3 py-2 text-sm font-medium text-white hover:bg-brand-dark disabled:opacity-60"
         >
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
+      <div className="flex items-center gap-2 text-xs text-slate-500">
+        Powered by <img src="/de-logo.png" alt="DE, Digital Engineering" className="h-7" />
+      </div>
     </div>
   )
 }

@@ -66,7 +66,7 @@ export default function AllWork() {
             <button key={c.id} type="button" aria-pressed={active}
               onClick={() => { setFilter('category_id', String(c.id)); setAdding(false) }}
               className={`rounded-full border px-3 py-1.5 text-sm ${
-                active ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-300 bg-white hover:bg-slate-100'
+                active ? 'border-brand bg-brand text-white' : 'border-slate-300 bg-white hover:bg-slate-100'
               }`}>
               {c.name}
             </button>
@@ -126,7 +126,7 @@ export default function AllWork() {
             {items.map((item) => (
               <tr key={item.id} className="border-b border-slate-100 align-top last:border-0 hover:bg-slate-50">
                 <td className="whitespace-nowrap px-4 py-3">
-                  <Link to={`/work/${item.id}`} className="font-medium text-blue-700 hover:underline">{item.number}</Link>
+                  <Link to={`/work/${item.id}`} className="font-medium text-brand hover:underline">{item.number}</Link>
                 </td>
                 <td className="min-w-64 max-w-md px-4 py-3">
                   <Link to={`/work/${item.id}`} className="font-medium hover:underline">{item.title}</Link>

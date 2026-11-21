@@ -87,7 +87,7 @@ export default function WorkItemForm({ onClose, presetCategoryId = null }) {
           {categories.map((c) => (
             <button key={c.id} type="button" onClick={() => pickCategory(c.id)} aria-pressed={c.id === category.id}
               className={`rounded-full border px-3 py-1.5 text-sm ${
-                c.id === category.id ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-300 hover:bg-slate-100'
+                c.id === category.id ? 'border-brand bg-brand text-white' : 'border-slate-300 hover:bg-slate-100'
               }`}>
               {c.name}
             </button>

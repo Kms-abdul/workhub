@@ -3,13 +3,13 @@
 export const inputClass =
   'mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-slate-500 focus:outline-none'
 export const darkButton =
-  'rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-60'
+  'rounded-md bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark disabled:opacity-60'
 export const lightButton =
   'rounded-md border border-slate-300 bg-white px-4 py-2 text-sm hover:bg-slate-100 disabled:opacity-60'
 
 const KIND_STYLE = {
   OPEN: 'bg-slate-100 text-slate-700',
-  ACTIVE: 'bg-blue-100 text-blue-700',
+  ACTIVE: 'bg-brand-light text-brand',
   DONE: 'bg-green-100 text-green-700',
 }
 const PRIORITY_STYLE = {

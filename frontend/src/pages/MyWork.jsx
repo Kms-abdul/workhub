@@ -4,7 +4,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import api, { errorMessage } from '../api/client'
 import { allCategories, formatMinutes, useConfig } from '../api/hooks'
 import QuickLog from '../components/QuickLog'
-import WorkItemForm from '../components/WorkItemForm'
 import { Priority, darkButton, kindClass, lightButton } from '../components/ui'
 
 // Local date as YYYY-MM-DD (toISOString would give the UTC date, which can be yesterday).
@@ -79,9 +78,9 @@ function WorkRow({ item, category, actions, busy, runningHere, elapsed }) {
 
   return (
     <>
-      <tr className={`border-b border-slate-100 align-top last:border-0 ${runningHere ? 'bg-blue-50' : ''}`}>
+      <tr className={`border-b border-slate-100 align-top last:border-0 ${runningHere ? 'bg-brand-light' : ''}`}>
         <td className="whitespace-nowrap px-4 py-3 text-xs">
-          <Link to={`/work/${item.id}`} className="font-medium text-blue-700 hover:underline">{item.number}</Link>
+          <Link to={`/work/${item.id}`} className="font-medium text-brand hover:underline">{item.number}</Link>
         </td>
         <td className="px-4 py-3">
           <div className={`font-medium ${isDone ? 'text-slate-500' : ''}`}>{item.title}</div>
@@ -99,13 +98,13 @@ function WorkRow({ item, category, actions, busy, runningHere, elapsed }) {
         </td>
         <td className="whitespace-nowrap px-4 py-3 text-slate-600">
           {formatMinutes(item.total_minutes)}
-          {runningHere && <div className="font-mono text-xs font-medium text-blue-700" aria-label="Timer running">+ {clock(elapsed)}</div>}
+          {runningHere && <div className="font-mono text-xs font-medium text-brand" aria-label="Timer running">+ {clock(elapsed)}</div>}
         </td>
         <td className="px-4 py-3">
           <div className="flex flex-wrap justify-end gap-1">
             {!isDone && (runningHere ? (
               <button type="button" disabled={busy} onClick={() => actions.stop(item)}
-                className={`${rowButton} border-blue-600 bg-blue-600 text-white hover:bg-blue-700`}>Pause</button>
+                className={`${rowButton} border-brand bg-brand text-white hover:bg-brand-dark`}>Pause</button>
             ) : (
               <button type="button" disabled={busy} onClick={() => actions.start(item)}
                 className={`${rowButton} border-slate-300 hover:bg-slate-100`}>Start</button>
@@ -158,7 +157,6 @@ function WorkTable({ title, items, empty, timer, elapsed, categoryOf, ...rowProp
 
 export default function MyWork() {
   const queryClient = useQueryClient()
-  const [adding, setAdding] = useState(false)
   const config = useConfig()
   const categories = allCategories(config.data)
   const categoryOf = (item) => categories.find((c) => c.id === item.category.id)
@@ -207,23 +205,19 @@ export default function MyWork() {
             )}
           </p>
         </div>
-        {!adding && (
-          <button type="button" onClick={() => setAdding(true)} className={lightButton}>Full form (due date, assign…)</button>
-        )}
       </div>
 
       <QuickLog day={day} onDayChange={setDay} today={today} />
 
       {timer.data && (
-        <div className="mt-4 flex flex-wrap items-center gap-3 rounded-md border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-900">
+        <div className="mt-4 flex flex-wrap items-center gap-3 rounded-md border border-brand/30 bg-brand-light px-4 py-2 text-sm text-brand-dark">
           <span className="font-mono font-semibold">{clock(elapsed)}</span>
           <span className="min-w-0 flex-1 truncate">Timer running on {timer.data.number} — {timer.data.title}</span>
           <button type="button" disabled={act.isPending} onClick={() => actions.stop({ id: timer.data.work_item_id })}
-            className={`${rowButton} border-blue-600 bg-blue-600 text-white hover:bg-blue-700`}>Pause</button>
+            className={`${rowButton} border-brand bg-brand text-white hover:bg-brand-dark`}>Pause</button>
         </div>
       )}
 
-      <div className="mt-6">{adding && <WorkItemForm onClose={() => setAdding(false)} />}</div>
 
       {work.isError && <p role="alert" className="text-sm text-red-600">{errorMessage(work.error)}</p>}
       {act.isError && <p role="alert" className="text-sm text-red-600">{errorMessage(act.error)}</p>}

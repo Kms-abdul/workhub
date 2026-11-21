@@ -8,10 +8,10 @@ import { useAuth } from '../auth'
 // Chart colours, checked for colour-blind separation and contrast on a white card.
 const SERIES = [
   { key: 'open', label: 'To do', color: '#d97706' },
-  { key: 'active', label: 'In progress', color: '#2563eb' },
-  { key: 'done', label: 'Finished today', color: '#16a34a' },
+  { key: 'active', label: 'In progress', color: '#5146b5' },
+  { key: 'done', label: 'Finished today', color: '#009c49' },
 ]
-const HOURS_COLOR = '#2563eb'
+const HOURS_COLOR = '#5146b5'
 const axisTick = { fontSize: 12, fill: '#475569' }
 const hours = (minutes) => Math.round((minutes / 60) * 10) / 10
 
@@ -145,7 +145,7 @@ export default function Dashboard() {
                 <li key={a.id} className="flex flex-wrap gap-x-2">
                   <span className="w-40 shrink-0 text-slate-500">{formatDateTime(a.created_at)}</span>
                   <span>
-                    <Link to={`/work/${a.work_item_id}`} className="font-medium text-blue-700 hover:underline">{a.number}</Link>{' '}
+                    <Link to={`/work/${a.work_item_id}`} className="font-medium text-brand hover:underline">{a.number}</Link>{' '}
                     <span className="font-medium">{a.employee}</span> {activityText(a)}
                   </span>
                 </li>

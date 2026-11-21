@@ -79,7 +79,7 @@ const COUNT_COLUMNS = (first) => [
   ['Finished', (r) => r.finished, true],
   ['Time', (r) => formatMinutes(r.minutes), true],
 ]
-const itemLink = (i) => <Link to={`/work/${i.id}`} className="font-medium text-blue-700 hover:underline">{i.number}</Link>
+const itemLink = (i) => <Link to={`/work/${i.id}`} className="font-medium text-brand hover:underline">{i.number}</Link>
 
 function ReportState({ query, children }) {
   if (query.isLoading) return <p className="text-sm text-slate-500">Loading…</p>
@@ -299,7 +299,7 @@ export default function Reports() {
         {TABS.map(([key, label]) => (
           <button key={key} type="button" role="tab" aria-selected={tab === key} onClick={() => setParams({ tab: key }, { replace: true })}
             className={`rounded-full border px-3 py-1.5 text-sm ${
-              tab === key ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-300 bg-white hover:bg-slate-100'
+              tab === key ? 'border-brand bg-brand text-white' : 'border-slate-300 bg-white hover:bg-slate-100'
             }`}>
             {label}
           </button>
