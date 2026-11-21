@@ -159,6 +159,7 @@ export default function WorkItemDetail() {
     queryFn: () => api.get(`/work-items/${id}`).then((r) => r.data),
     retry: false,
   })
+  const [savedAt, setSavedAt] = useState(0) // when the details were last saved on this visit
   const refresh = () => {
     queryClient.invalidateQueries({ queryKey: ['work-items'] })
     queryClient.invalidateQueries({ queryKey: ['config'] }) // a new work type may have been added
@@ -186,7 +187,12 @@ export default function WorkItemDetail() {
       <div className="mt-6 space-y-6">
         <Card title="Details">
           {/* updated_at in the key reloads the form with fresh values after any change */}
-          <EditForm key={item.updated_at} item={item} category={category} onSaved={refresh} />
+          <EditForm key={item.updated_at} item={item} category={category} onSaved={() => { refresh(); setSavedAt(Date.now()) }} />
+          {savedAt > 0 && (
+            <p role="status" className="mt-3 text-sm text-green-700">
+              Saved at {new Date(savedAt).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}.
+            </p>
+          )}
         </Card>
 
         <TimeEntries item={item} onChanged={refresh} />

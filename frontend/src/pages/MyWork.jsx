@@ -111,6 +111,9 @@ function WorkRow({ item, category, actions, busy, runningHere, elapsed }) {
             ))}
             <button type="button" onClick={() => setAddingTime(!addingTime)}
               className={`${rowButton} border-slate-300 hover:bg-slate-100`}>+ Time</button>
+            {/* Always there, also on finished work: opens the item to change anything about it. */}
+            <Link to={`/work/${item.id}`} aria-label={`Edit ${item.number}`}
+              className={`${rowButton} border-slate-300 hover:bg-slate-100`}>Edit</Link>
             {!isDone && doneStatus && (
               <button type="button" disabled={busy} onClick={() => actions.changeStatus(item, doneStatus.id)}
                 className={`${rowButton} border-green-600 text-green-700 hover:bg-green-50`}>Complete</button>
