@@ -11,7 +11,14 @@ export function useConfig() {
   })
 }
 
-// The one shared list of work type names ("Meeting", "Session"…), for suggestions and filters.
+// Work type names used in one category, A to Z. These are the suggestions while entering work,
+// so each category only offers its own types.
+export const categoryWorkTypes = (category) =>
+  (category?.classifications ?? []).filter((c) => c.is_active).map((c) => c.name)
+    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }))
+
+// Every work type name across all categories ("Meeting", "Session"…), for the filters on
+// All Work and Reports, where you look across categories.
 // Its key starts with 'config', so it refreshes whenever a new type may have been added.
 export function useWorkTypes() {
   return useQuery({

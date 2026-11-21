@@ -1,12 +1,10 @@
-import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import api, { errorMessage } from '../api/client'
 import { allCategories, formatDateTime, formatMinutes, useConfig, useEmployees } from '../api/hooks'
 import { useAuth } from '../auth'
-import WorkItemForm from '../components/WorkItemForm'
 import { WorkTypeFilter } from '../components/WorkTypeInput'
-import { Priority, StatusBadge, darkButton } from '../components/ui'
+import { Priority, StatusBadge } from '../components/ui'
 
 const filterInput = 'rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm focus:border-slate-500 focus:outline-none'
 const KINDS = [['', 'Any status'], ['OPEN', 'Open'], ['ACTIVE', 'In progress'], ['DONE', 'Finished']]
@@ -14,7 +12,6 @@ const KINDS = [['', 'Any status'], ['OPEN', 'Open'], ['ACTIVE', 'In progress'], 
 export default function AllWork() {
   const { user } = useAuth()
   const isManager = user.role !== 'EMPLOYEE'
-  const [adding, setAdding] = useState(false)
   // Filters live in the address bar, so a filtered view can be bookmarked and survives going back.
   const [params, setParams] = useSearchParams()
   const filters = Object.fromEntries(params)
@@ -52,11 +49,6 @@ export default function AllWork() {
             {!isManager && ' · work you created or are assigned to'}
           </p>
         </div>
-        {!adding && (
-          <button type="button" onClick={() => setAdding(true)} className={darkButton}>
-            + Add {category ? `to ${category.name}` : 'Work'}
-          </button>
-        )}
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Category">
@@ -64,7 +56,7 @@ export default function AllWork() {
           const active = String(c.id) === (filters.category_id ?? '')
           return (
             <button key={c.id} type="button" aria-pressed={active}
-              onClick={() => { setFilter('category_id', String(c.id)); setAdding(false) }}
+              onClick={() => setFilter('category_id', String(c.id))}
               className={`rounded-full border px-3 py-1.5 text-sm ${
                 active ? 'border-brand bg-brand text-white' : 'border-slate-300 bg-white hover:bg-slate-100'
               }`}>
@@ -77,7 +69,7 @@ export default function AllWork() {
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <input type="search" placeholder="Search number or text" value={filters.q ?? ''}
           onChange={(e) => setFilter('q', e.target.value)} className={`${filterInput} w-56`} />
-        <WorkTypeFilter value={filters.work_type ?? ''} onChange={(v) => setFilter('work_type', v)} className={filterInput} />
+        <WorkTypeFilter category={category} value={filters.work_type ?? ''} onChange={(v) => setFilter('work_type', v)} className={filterInput} />
         <select value={filters.status_kind ?? ''} onChange={(e) => setFilter('status_kind', e.target.value)}
           className={filterInput} aria-label="Status">
           {KINDS.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
@@ -102,9 +94,7 @@ export default function AllWork() {
         )}
       </div>
 
-      <div className="mt-6">
-        {adding && <WorkItemForm key={category?.id ?? 'any'} presetCategoryId={category?.id ?? null} onClose={() => setAdding(false)} />}
-      </div>
+      <div className="mt-6" />
 
       {work.isError && <p role="alert" className="text-sm text-red-600">{errorMessage(work.error)}</p>}
 

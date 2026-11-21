@@ -1,7 +1,7 @@
 import { useId, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api, { errorMessage } from '../api/client'
-import { allCategories, useConfig, useWorkTypes } from '../api/hooks'
+import { allCategories, categoryWorkTypes, useConfig } from '../api/hooks'
 
 const LAST_CATEGORY = 'workhub_last_category'
 const box = 'mt-1 w-full rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm focus:border-slate-500 focus:outline-none'
@@ -37,7 +37,6 @@ export default function QuickLog({ day, onDayChange, today }) {
   const listId = useId()
   const firstBox = useRef(null)
   const config = useConfig()
-  const workTypes = useWorkTypes().data ?? []
   const categories = allCategories(config.data).filter((c) => c.is_active && c.department_active)
 
   const [categoryId, setCategoryId] = useState(() => {
@@ -45,6 +44,9 @@ export default function QuickLog({ day, onDayChange, today }) {
   })
   const category = categories.find((c) => c.id === categoryId) ?? categories[0]
   const severalDepartments = new Set(categories.map((c) => c.department_id)).size > 1
+  // Suggestions are only the work types already used in the chosen category:
+  // "Testing" typed under Development is not offered under Quick Solutions.
+  const workTypes = categoryWorkTypes(category)
   const blank = { work_type: '', title: '', status_id: '', time: '', comments: '' }
   const [row, setRow] = useState(blank)
   const [custom, setCustom] = useState({})
