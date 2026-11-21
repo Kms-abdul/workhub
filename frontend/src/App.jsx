@@ -7,6 +7,7 @@ import WorkItemDetail from './pages/WorkItemDetail'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import MyWork from './pages/MyWork'
+import Profile from './pages/Profile'
 import Reports from './pages/Reports'
 import Team from './pages/Team'
 
@@ -22,6 +23,7 @@ function ComingSoon({ title }) {
 
 const PAGES = {
   '/': <Dashboard />, '/my-work': <MyWork />, '/all-work': <AllWork />, '/reports': <Reports />, '/team': <Team />, '/admin': <Admin />,
+  '/profile': <Profile />,
 }
 
 export default function App() {

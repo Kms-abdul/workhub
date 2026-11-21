@@ -13,6 +13,7 @@ const ICON_PATHS = {
   reports: 'M3 20h18M6 20v-8M11 20V5M16 20v-5M21 20V9',
   team: 'M16 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1M9.5 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM21 20v-1a4 4 0 0 0-3-3.87M15.5 4.13a3.5 3.5 0 0 1 0 6.75',
   admin: 'M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1M15 4v4M9 10v4M17 16v4',
+  profile: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 20a7.5 7.5 0 0 1 15 0',
   menu: 'M4 6h16M4 12h16M4 18h16',
   signOut: 'M14 4h5v16h-5M10 8l-4 4 4 4M6 12h10',
 }
@@ -36,6 +37,7 @@ export const NAV = [
   { to: '/reports', label: 'Reports', icon: 'reports' },
   { to: '/team', label: 'Team', icon: 'team', roles: ['MANAGER', 'ADMIN'] },
   { to: '/admin', label: 'Admin', icon: 'admin', roles: ['ADMIN'] },
+  { to: '/profile', label: 'My Profile', icon: 'profile' },
 ]
 
 export const canSee = (item, user) => !item.roles || item.roles.includes(user.role)
@@ -142,7 +144,7 @@ export default function Layout() {
           </div>
         ) : (
           <div className="border-t border-sidebar-text/15 px-5 py-4">
-            <div className="truncate text-sm font-semibold">{user.name}</div>
+            <Link to="/profile" title="Open my profile" className="block truncate text-sm font-semibold hover:underline">{user.name}</Link>
             <div className="text-xs opacity-70">{user.role}</div>
             <button onClick={logout} className="mt-2 text-xs underline opacity-90 hover:opacity-100">
               Sign out
